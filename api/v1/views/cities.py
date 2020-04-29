@@ -54,7 +54,7 @@ def post_city(state_id):
         abort(404)
     json_req = request.get_json()
     if not json_req:
-        abort(400, 'Not a JSON') 
+        abort(400, 'Not a JSON')
     if 'name' not in json_req:
         abort(400, 'Missing name')
     new_city = City(**request.get_json())
@@ -72,10 +72,7 @@ def put_city_id(city_id):
     city_by_id = storage.get(City, city_id)
     if city_by_id is not None:
         for attr, value in request.get_json().items():
-            if (hasattr(city_by_id, attr) and
-                    attr != 'id' and attr != 'created_at' and
-                    attr != 'updated_at'):
-                setattr(city_by_id, attr, value)
+            setattr(city_by_id, attr, value)
         storage.save()
         return jsonify(city_by_id.to_dict()), 200
     abort(404)
