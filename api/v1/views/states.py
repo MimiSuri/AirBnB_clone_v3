@@ -5,13 +5,7 @@
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
-from models.amenity import Amenity
-from models.base_model import BaseModel
-from models.city import City
-from models.place import Place
-from models.review import Review
 from models.state import State
-from models.user import User
 
 
 @app_views.route("/states", strict_slashes=False, methods=['GET'])
@@ -50,8 +44,7 @@ def post_state():
         abort(400, {'Not a JSON'})
     if 'name' not in request.get_json():
         abort(400, {'Missing name'})
-    new_state = State()
-    new_state.name = request.get_json()["name"]
+    new_state = State(**request.get_json())
     storage.new(new_state)
     storage.save()
     return jsonify(new_state.to_dict()), 201
