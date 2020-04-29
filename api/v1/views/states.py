@@ -47,9 +47,9 @@ def post_state():
     try:
         request.get_json()
     except:
-        abort(400, 'Not a JSON')
+        abort(400, {'Not a JSON'})
     if 'name' not in request.get_json():
-        abort(400, 'Missing name')
+        abort(400, {'Missing name'})
     new_state = State()
     new_state.name = request.get_json()["name"]
     storage.new(new_state)
@@ -65,7 +65,7 @@ def put_state_id(state_id):
         try:
             request.get_json()
         except:
-            abort(400, 'Not a JSON')
+            abort(400, {'Not a JSON'})
         for attr, value in request.get_json().items():
             setattr(state_by_id, attr, value)
         storage.save()
